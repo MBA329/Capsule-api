@@ -1,0 +1,7 @@
+allowBuilds:
+  esbuild: false
+  workerd: false
+minimumReleaseAgeExclude:
+  - '@prisma/composer-cli@0.26.0'
+  - '@prisma/composer@0.26.0'
+  - prisma@8.0.0-rc.20
