@@ -5,6 +5,7 @@ import { redis } from "../config/redis.js";
 
 
 
+
 export const api: AxiosInstance = axios.create({
   baseURL: "https://api.spotify.com",
   timeout: 5000,
@@ -16,7 +17,7 @@ export const api: AxiosInstance = axios.create({
 api.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
     config.headers["Authorization"] =
-      `Bearer ${await redis.get("access_token")}`;
+      `Bearer $`;
 
     return config;
   },

@@ -74,7 +74,7 @@ export const requestToken = async (req: Request, res: Response) => {
       },
     );
 
-    await authServices.login(tokenResponse.data)
+   const user =  await authServices.login(tokenResponse.data)
 
     // res.cookie(key, access_token, {
     //   sameSite: "lax",
@@ -82,7 +82,7 @@ export const requestToken = async (req: Request, res: Response) => {
     //   maxAge: expires_in,
     // });
 
-  
+  return res.status(200).json(user)
   } catch (error) {
     console.error("failed to fetch token", error);
   }
