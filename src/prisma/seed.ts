@@ -6,7 +6,7 @@ async function main(){
   let user = await db.orm.public.User.where({email}).
   first();
   if (!user){
-user = await db.orm.public.User.create({email,username:"dev"});
+user = await db.orm.public.User.create({email,username:"dev",refreshToken:""});
 console.log("created user:",user.id);
   }
   else {

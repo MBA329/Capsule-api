@@ -4,9 +4,7 @@ import { env } from "../config/env";
 import axios from "axios";
 import { redis } from "../config/redis";
 import { api } from "../services/axios.interceptor";
-import { db } from "../prisma/db";
-import { userResponse } from "../types";
-
+import {authServices} from "../services/auth.service"
 
 function generateRandomString(length: number) {
   const alphabet =
@@ -25,27 +23,6 @@ function generateRandomString(length: number) {
 //   }
 // }
 
-async function checkUser(data:userResponse):Promise<String | undefined>{
-   const { display_name, email,id } = data;
-   try {
-const isExisting = await db.orm.public.User.where({ email }).first();
-if (!isExisting) {
-     await db.orm.public.User.create({
-      email,
-      username:display_name,
-     })
-
-    
-
-}
- return id
-   }
-   catch(error){
-    console.error("failed to perform operation",error)
-    return 
-   }
-
-  }
 
 export const login = async (req: Request, res: Response) => {
   var state = generateRandomString(16);
@@ -73,13 +50,13 @@ export const requestToken = async (req: Request, res: Response) => {
   const code = (req.query.code as string) || null;
   const state = req.query.state || null;
 
-  if (state !== (await redis.get("state")) || req.query.error || !code) {
+  if (!state || req.query.error || !code) {
     res.redirect("http://localhost:3000/login?error=no_code");
     return res.json({
       message: "couldn't authenticate",
     });
   }
-  const key = "access_token";
+ 
   try {
     const tokenResponse = await axios.post(
       "https://accounts.spotify.com/api/token",
@@ -96,20 +73,14 @@ export const requestToken = async (req: Request, res: Response) => {
         },
       },
     );
-    const { access_token, expires_in, refresh_token } = tokenResponse.data;
-    const userResponse:userResponse = await axios.get("/v1/me",{
-      headers:{
-        "Authorization":`Bearer ${access_token}`
-      }
-    });
-    const id = await checkUser(userResponse)
-    
-   
-    res.cookie(key, access_token, {
-      sameSite: "lax",
-      httpOnly: true,
-      maxAge: expires_in,
-    });
+
+    await authServices.login(tokenResponse.data)
+
+    // res.cookie(key, access_token, {
+    //   sameSite: "lax",
+    //   httpOnly: true,
+    //   maxAge: expires_in,
+    // });
 
   
   } catch (error) {

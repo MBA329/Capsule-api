@@ -7,6 +7,7 @@ model User {
   capsules     Capsule[]
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
+  refreshToken String
 }
 
 model Capsule{
