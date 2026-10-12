@@ -5,6 +5,8 @@ import axios from "axios";
 import { redis } from "../config/redis";
 import { api } from "../services/axios.interceptor";
 import { db } from "../prisma/db";
+import { userResponse } from "../types";
+
 
 function generateRandomString(length: number) {
   const alphabet =
@@ -22,15 +24,38 @@ function generateRandomString(length: number) {
 //     throw new Error("failed to fetch");
 //   }
 // }
+
+async function checkUser(data:userResponse):Promise<String | undefined>{
+   const { display_name, email,id } = data;
+   try {
+const isExisting = await db.orm.public.User.where({ email }).first();
+if (!isExisting) {
+     await db.orm.public.User.create({
+      email,
+      username:display_name,
+     })
+
+    
+
+}
+ return id
+   }
+   catch(error){
+    console.error("failed to perform operation",error)
+    return 
+   }
+
+  }
+
 export const login = async (req: Request, res: Response) => {
   var state = generateRandomString(16);
   var scope = "user-read-private user-read-email";
 
-  try {
-    await redis.set("state", state);
-  } catch (error) {
-    console.error("failed to connect to redis server", error);
-  }
+  // try {
+  //   await redis.set("state", state);
+  // } catch (error) {
+  //   console.error("failed to connect to redis server", error);
+  // }
 
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
@@ -72,17 +97,21 @@ export const requestToken = async (req: Request, res: Response) => {
       },
     );
     const { access_token, expires_in, refresh_token } = tokenResponse.data;
-    const userResponse = await api.get("https://api.spotify.com/v1/me");
-    const {account_id,display_name,email} = userResponse.data
-    const isExisting = await db.
-
+    const userResponse:userResponse = await axios.get("/v1/me",{
+      headers:{
+        "Authorization":`Bearer ${access_token}`
+      }
+    });
+    const id = await checkUser(userResponse)
+    
+   
     res.cookie(key, access_token, {
       sameSite: "lax",
       httpOnly: true,
       maxAge: expires_in,
     });
 
-    await redis.set(key, access_token, { EX: expires_in });
+  
   } catch (error) {
     console.error("failed to fetch token", error);
   }

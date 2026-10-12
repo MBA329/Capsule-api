@@ -1,16 +1,19 @@
 import { userService } from "../services/user.service";
 import { Request,Response } from "express";
 import { api } from "../services/axios.interceptor";
+import {db} from "../prisma/db"
 
-export const getUserProfile = async (req:Request,res:Response)=>{
- try {
-  const response = await api.get('/v1/me')
-  userService.createProfile(response.data)
-  return res.status(200).json(response.data)
-  
- }
- catch(error){
-  res.status(500).json({message:"error getting profile"})
-  console.error("failed to load user data",error)
+
+export const showDashboard = async (req:Request,res:Response)=>{
+const id = Number(req.params.id)
+try{
+ const user =  db.orm.public.User.where({id:id})
+  console.log(user);
+  return res.status(200).json({user})
+ 
+}
+ 
+ catch (error){
+  return res.status(404).json("user could not be found") 
  }
 }
