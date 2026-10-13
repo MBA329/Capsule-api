@@ -9,7 +9,7 @@ const appRouter = express.Router();
 
 
 declare global {
- namespace express{
+ namespace Express{
   interface Request{
     user?:{
       id:string

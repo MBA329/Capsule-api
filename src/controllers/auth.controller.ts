@@ -15,29 +15,17 @@ function generateRandomString(length: number) {
     return alphabet.charAt(randomIndex);
   }).join("");
 }
-// async function getToken() {
-//   try {
-//     return await redis.get("access_token");
-//   } catch (error) {
-//     throw new Error("failed to fetch");
-//   }
-// }
 
 
 export const login = async (req: Request, res: Response) => {
-  var state = generateRandomString(16);
+  
   var scope = "user-read-private user-read-email";
-
-  // try {
-  //   await redis.set("state", state);
-  // } catch (error) {
-  //   console.error("failed to connect to redis server", error);
-  // }
+  req.app.locals.state = generateRandomString(16);
 
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
-        state: state,
+        state: req.app.locals.state,
         scope: scope,
         client_id: env.CLIENT_ID,
         redirect_uri: "http://127.0.0.1:3000/auth/callback",
@@ -50,7 +38,7 @@ export const requestToken = async (req: Request, res: Response) => {
   const code = (req.query.code as string) || null;
   const state = req.query.state || null;
 
-  if (!state || req.query.error || !code) {
+  if (!state || req.query.error || !code || state != req.app.locals.state) {
     res.redirect("http://localhost:3000/login?error=no_code");
     return res.json({
       message: "couldn't authenticate",
@@ -85,6 +73,7 @@ export const requestToken = async (req: Request, res: Response) => {
 
   return res.status(200).json(user)
   } catch (error) {
+    res.status(500).json({rror:"internal server error"})
     console.error("failed to fetch token", error);
   }
   return res.json({message:"authentication successful"})
