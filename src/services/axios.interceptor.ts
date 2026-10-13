@@ -16,9 +16,7 @@ export const api: AxiosInstance = axios.create({
 
 api.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
-    config.headers["Authorization"] =
-      `Bearer $`;
-
+    
     return config;
   },
   (error: AxiosError): Promise<never> => {
