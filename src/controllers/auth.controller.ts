@@ -2,9 +2,9 @@ import express, { Request, Response } from "express";
 import querystring from "node:querystring";
 import { env } from "../config/env";
 import axios from "axios";
-import { redis } from "../config/redis";
-import { api } from "../services/axios.interceptor";
 import {authServices} from "../services/auth.service"
+import { generateToken } from "../config/jwt";
+
 
 function generateRandomString(length: number) {
   const alphabet =
@@ -75,12 +75,13 @@ export const requestToken = async (req: Request, res: Response) => {
     );
 
    const user =  await authServices.login(tokenResponse.data)
+   const access_token = generateToken({userId:user.id,email:user.email})
 
-    // res.cookie(key, access_token, {
-    //   sameSite: "lax",
-    //   httpOnly: true,
-    //   maxAge: expires_in,
-    // });
+    res.cookie("auth_token", access_token, {
+      sameSite: "lax",
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
   return res.status(200).json(user)
   } catch (error) {
