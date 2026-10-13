@@ -2,7 +2,7 @@ import { tokenResponse,userResponse } from "../types"
 import axios, {AxiosResponse} from "axios";
 import { db } from "../prisma/db";
 import {redis} from "../config/redis"
-import User  from "../prisma/contract"
+import type {User}  from "../prisma/contract"
 
 
 export const authServices = {

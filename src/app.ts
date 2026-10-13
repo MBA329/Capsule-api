@@ -7,6 +7,18 @@ export const app = express();
 app.use(express.json());
 const appRouter = express.Router();
 
+
+declare global {
+ namespace express{
+  interface Request{
+    user?:{
+      id:string
+      email:string
+    }
+  }
+ }
+}
+
 app.get("/health", async (_req: Request, res: Response) => {
   try {
     await db.orm.public.User.select("id").limit(1).all();
