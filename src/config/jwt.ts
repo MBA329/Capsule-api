@@ -2,8 +2,8 @@ import jwt from 'jsonwebtoken'
 import { env } from './env'
 
 interface tokenPayload  {
-  userId:String,
-  email:String
+  id:string,
+  email:string
 }
 
 export const generateToken = (payload:tokenPayload):string =>{

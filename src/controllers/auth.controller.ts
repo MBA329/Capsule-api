@@ -63,7 +63,7 @@ export const requestToken = async (req: Request, res: Response) => {
     );
 
    const user =  await authServices.login(tokenResponse.data)
-   const access_token = generateToken({userId:user.id,email:user.email})
+   const access_token = generateToken({id:user.id,email:user.email})
 
     res.cookie("auth_token", access_token, {
       sameSite: "lax",
