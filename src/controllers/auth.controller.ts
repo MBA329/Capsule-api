@@ -73,7 +73,7 @@ export const requestToken = async (req: Request, res: Response) => {
 
   return res.status(200).json(user)
   } catch (error) {
-    res.status(500).json({rror:"internal server error"})
+    res.status(500).json({error:"internal server error"})
     console.error("failed to fetch token", error);
   }
   return res.json({message:"authentication successful"})
