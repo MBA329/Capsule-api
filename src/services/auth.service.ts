@@ -16,22 +16,43 @@ export const authServices = {
          },
        },
      );
-    const {email,display_name} = user.data
-    const dbUser = await db.orm.public.User.where({ email })
-    .upsert({
-    
-      create: { 
-        email, 
-        username:display_name,
-        refreshToken:refresh_token
-      },
-      // Keep empty if you only want to fetch existing users without altering them
-      update: {refreshToken:refresh_token} 
-    });
-     const userId =  dbUser.id 
-    await redis.set(`user ${userId}`,access_token,{
+    let {email,display_name} = user.data
+    if (!email || !display_name){
+      console.error("no email or display name provided")
+      return
+    }
+    console.log(JSON.stringify({
+      email,
+      display_name
+    }))
+    email = email.toLowerCase().trim()
+    // const dbUser = await db.orm.public.User.where({ email })
+    // .upsert({
+    //   create: { 
+    //     email, 
+    //     username:display_name,
+    //     refreshToken:refresh_token
+    //   },
+    //   // Keep empty if you only want to fetch existing users without altering them
+    //   update: {refreshToken:refresh_token} 
+    // });
+    const existing = await db.orm.public.User.where({email}).first()
+    if (existing){
+      await db.orm.public.User.where({id:existing.id}).update({refreshToken:refresh_token})
+      await redis.set(`user:${existing.id}`, access_token, {
+        EX: expires_in,
+      });
+      return existing
+    }
+    const newUser = await db.orm.public.User.create({
+      email,
+      username:display_name,
+      refreshToken:refresh_token
+    })
+  
+    await redis.set(`user:${newUser.id}`,access_token,{
       EX:expires_in
     })
-    return dbUser
+    return newUser
   }}
   
