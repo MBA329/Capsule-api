@@ -14,6 +14,8 @@ export const api: AxiosInstance = axios.create({
   },
 });
 
+const isRefreshing = false;
+
 api.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
     
@@ -23,5 +25,5 @@ api.interceptors.request.use(
     return Promise.reject(error);
   },
 );
-
+api.interceptors.response.use()
 

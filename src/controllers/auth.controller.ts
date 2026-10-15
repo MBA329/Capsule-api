@@ -72,12 +72,17 @@ export const requestToken = async (req: Request, res: Response) => {
     });
    }
 
-    
 
-  return res.status(200).json({message:"user authenticated"})
+  return res.status(200).json({data:{
+    username:user?.username,
+    email:user?.email,
+   
+
+  }})
   } catch (error) {
     res.status(500).json({error:"internal server error"})
     console.error("failed to fetch token", error);
   }
   return res.json({message:"authentication successful"})
 };
+

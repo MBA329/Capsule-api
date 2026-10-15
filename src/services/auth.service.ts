@@ -9,7 +9,7 @@ import {Scalars} from "@prisma/orm-postgres/family-contract/types"
 type userRow = Scalars<Models.public_User>;
 
 export const authServices = {
-  login: async (data: tokenResponse): Promise<userRow | undefined> => {
+  login: async (data: tokenResponse): Promise<userRow | undefined | Models.public_User> => {
     const { access_token, expires_in, refresh_token } = data;
     const user: AxiosResponse = await axios.get(
       "https://api.spotify.com/v1/me",
@@ -40,11 +40,12 @@ export const authServices = {
       await redis.set(`user:${existing.id}`, access_token, {
         EX: expires_in,
       });
-      // existing = await db.orm.public.User.where({ id: existing.id }).update({
-      //   refreshToken: refresh_token,
-      // });=
+      existing = await db.orm.public.User.where({ id: existing.id }).update({
+        refreshToken: refresh_token,
+      });
 
-      return existing;
+
+      return existing !== null? existing : undefined;
     }
     try {
       const newUser = await db.orm.public.User.create({
