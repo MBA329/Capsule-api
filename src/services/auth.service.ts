@@ -11,7 +11,7 @@ type userRow = Scalars<Models.public_User>;
 export const authServices = {
   login: async (data: tokenResponse): Promise<userRow | undefined | Models.public_User> => {
     const { access_token, expires_in, refresh_token } = data;
-    const user: AxiosResponse = await axios.get(
+    const user: AxiosResponse = await axios.get<userResponse>(
       "https://api.spotify.com/v1/me",
       {
         headers: {

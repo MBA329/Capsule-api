@@ -60,10 +60,7 @@ api.interceptors.response.use(
     originalRequest._spotifyRetry = true;
     try {
       const accessToken = await refreshSpotifyAccessToken(userId);
-      originalRequest.headers = {
-        ...(originalRequest.headers as Record<string,string> | undefined) ,
-        Authorization: `Bearer ${accessToken}`
-      };
+      originalRequest.headers.set("Authorization", `Bearer ${accessToken}`);
       return await api.request(originalRequest)
     }
     catch (refreshError){

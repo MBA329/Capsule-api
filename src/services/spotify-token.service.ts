@@ -28,7 +28,7 @@ export class SpotifyAuthError extends Error {
 const refreshPromises = new Map<number, Promise<string>>();
 
 function accessTokenKey(userId: number): string {
-  return `spotify:access-token${userId}`;
+  return `spotify:access-token:${userId}`;
 }
 
 function cacheTtlSeconds(expiresIn: number): number {
@@ -95,7 +95,7 @@ async function renewSpotifyAccessToken(userId: number): Promise<string> {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization:
-            "Basic" +
+            "Basic " +
             Buffer.from(`${env.CLIENT_ID}:${env.CLIENT_SECRET}`).toString(
               "base64",
             ),
