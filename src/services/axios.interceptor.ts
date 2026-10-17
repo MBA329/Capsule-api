@@ -33,15 +33,7 @@ export async function spotifyGet<T>(
   } as SpotifyRequestConfig)
 return response.data
 }
-// api.interceptors.request.use(
-//   async (config: InternalAxiosRequestConfig) => {
-    
-//     return config;
-//   },
-//   (error: AxiosError): Promise<never> => {
-//     return Promise.reject(error);
-//   },
-// );
+
 
 api.interceptors.response.use(
   (response) => response,

@@ -6,7 +6,7 @@ import { env } from "../config/env";
 
 const spotifyRefreshResponseSchema = z.object({
   access_token: z.string().min(1),
-  refresh_token: z.string().min(1),
+  refresh_token: z.string().min(1).optional(),
   expires_in: z.number().int().positive(),
 });
 
@@ -134,8 +134,8 @@ function toSpotifyAuthError(error: unknown): SpotifyAuthError {
   }
   if (isInvalidGrant(error)) {
     return new SpotifyAuthError("spotifu rejected the refresh token; the user must login again",{
-      reauthenticationRequired:false,
-      retryable:true
+      reauthenticationRequired:true,
+      retryable:false
     });
   }
   const status = error.response.status;
