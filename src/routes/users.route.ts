@@ -5,3 +5,4 @@ import { requireAuth } from '../middleware/auth.middleware'
 export const userRouter = express.Router()
 
 userRouter.get('/playlists',requireAuth,getPlaylistController)
+ 

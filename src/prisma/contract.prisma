@@ -8,6 +8,7 @@ model User {
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
   refreshToken String
+  spotifyId    String
 }
 
 model Capsule{
