@@ -39,9 +39,9 @@ export const requestToken = async (req: Request, res: Response) => {
   const state = req.query.state || null;
 
   if (!state || req.query.error || !code || state != req.app.locals.state) {
-    res.redirect("http://localhost:3000/login?error=no_code");
+    
     return res.json({
-      message: "couldn't authenticate",
+      message: "couldn't authenticate invalid state or code",
     });
   }
  
