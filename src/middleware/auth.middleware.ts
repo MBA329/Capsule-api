@@ -3,7 +3,8 @@ import {verifyToken} from '../config/jwt'
 
 export async function requireAuth(req:Request,res:Response,next:NextFunction){
 
-  const token = req.cookies?.access_token
+  const token = req.cookies?.auth_token
+  console.log(token)
 
   const valid = verifyToken(token)
 

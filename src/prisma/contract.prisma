@@ -19,3 +19,4 @@ model Capsule{
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
 }
+
