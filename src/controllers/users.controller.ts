@@ -1,19 +1,16 @@
-import { userService } from "../services/user.service";
 import { Request,Response } from "express";
-import { api } from "../services/axios.interceptor";
-import {db} from "../prisma/db"
+import { spotifyRequest } from "../services/axios.interceptor";
 
 
-export const showDashboard = async (req:Request,res:Response)=>{
-const id = Number(req.params.id)
-try{
- const user =  db.orm.public.User.where({id:id})
-  console.log(user);
-  return res.status(200).json({user})
- 
+export const getPlaylistController = async (req:Request,res:Response)=>{
+const userId = req?.user?.id
+
+try {
+const response = await spotifyRequest(Number(userId),`/v1/users/${userId}/playlist`,"get")
+return res.status(200).json(response)
 }
- 
- catch (error){
-  return res.status(404).json("user could not be found") 
- }
+catch (error){
+console.error(error)
+}
+
 }

@@ -63,18 +63,23 @@ export const requestToken = async (req: Request, res: Response) => {
     );
 
    const user =  await authServices.login(tokenResponse.data)
-   const access_token = generateToken({userId:user.id,email:user.email})
-
+   if (user){
+   const access_token = generateToken({ id: user.id.toString(), email: user.email });
+   console.log(access_token)
     res.cookie("auth_token", access_token, {
       sameSite: "lax",
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-
-  return res.status(200).json(user)
+   }
+  return res.status(200).json({data:{
+    username:user?.username,
+    email:user?.email, 
+  }})
   } catch (error) {
     res.status(500).json({error:"internal server error"})
     console.error("failed to fetch token", error);
   }
   return res.json({message:"authentication successful"})
 };
+

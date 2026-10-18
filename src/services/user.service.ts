@@ -4,5 +4,9 @@ import { userResponse } from "../types"
 
 export const userService = {
  
-  
+   getPlaylist : (userId:string)=>{
+    // try {
+    //   const response = spotifyGet(userId)
+    // }
+  }
 }

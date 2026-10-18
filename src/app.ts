@@ -2,9 +2,11 @@ import express, { Request, Response } from "express";
 import { db } from "./prisma/db";
 import { authRouter } from "./routes/auth.route";
 import { userRouter } from "./routes/users.route";
+import cookieParser from 'cookie-parser'
 
 export const app = express();
 app.use(express.json());
+app.use(cookieParser())
 const appRouter = express.Router();
 
 
