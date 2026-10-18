@@ -17,23 +17,32 @@ export const api: AxiosInstance = axios.create({
   },
 });
 
-export async function spotifyGet<T>(
+
+
+export async function spotifyRequest<T>(
   userId:number,
   path:string,
-  params?:Record<string,string|number|boolean>
-):Promise<T>{
-  const accessToken = await getSpotifyAccessToken(userId);
+  method: "get" | "post" | "delete" | "put",
+  options:{params?: Record<string, string|boolean|number>;data?:unknown} = {},
 
-  const response = await api.get<T>(path,{
-    params,
+
+):Promise<T>{
+  const accessToken = getSpotifyAccessToken(userId)
+
+  const response = await api.request<T>({
+    method,
     headers:{
-      Authorization: `Bearer ${accessToken}`
+      Authorization: `Bearer: ${accessToken}`
     },
     capsuleUserId:userId,
-  } as SpotifyRequestConfig)
-return response.data
-}
+    url:path,
+    data:options.data,
+    params:options.params
 
+  }as SpotifyRequestConfig)
+
+  return response.data
+}
 
 api.interceptors.response.use(
   (response) => response,
