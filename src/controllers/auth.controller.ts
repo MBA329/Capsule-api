@@ -63,7 +63,11 @@ export const requestToken = async (req: Request, res: Response) => {
     );
 
    const user =  await authServices.login(tokenResponse.data)
-   if (user){
+   if (!user){
+    return res.status(404).json({message:"failed to create or fetch user",
+     
+    })
+   }
    const access_token = generateToken({ id: user.id.toString(), email: user.email });
    console.log(access_token)
     res.cookie("auth_token", access_token, {
@@ -71,15 +75,14 @@ export const requestToken = async (req: Request, res: Response) => {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-   }
+   
   return res.status(200).json({data:{
     username:user?.username,
     email:user?.email, 
   }})
-  } catch (error) {
-    res.status(500).json({error:"internal server error"})
+  } catch (error:any) {
+    res.status(500).json({message:error.message})
     console.error("failed to fetch token", error);
   }
-  return res.json({message:"authentication successful"})
 };
 

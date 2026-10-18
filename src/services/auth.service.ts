@@ -60,7 +60,7 @@ export const authServices = {
       return newUser;
     } catch (error) {
       console.error("something went wrong", error);
-      return
+      throw error
     }
   },
 };
