@@ -14,12 +14,12 @@ export const userService = {
     if (!users){
       throw new Error("user cannot be found")
     }
-      const spotifyId = users?.spotifyId;
+    
      
 
-      const response = spotifyRequest<T>(
+      const response = await spotifyRequest<T>(
         userId,
-        `https://api.spotify.com/v1/users/${spotifyId}/playlists`,
+        `https://api.spotify.com/v1/me/playlists`,
         "get",
       );
    return response

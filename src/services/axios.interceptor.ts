@@ -27,7 +27,7 @@ export async function spotifyRequest<T>(
 
 
 ):Promise<T>{
-  const accessToken = getSpotifyAccessToken(userId)
+  const accessToken = await getSpotifyAccessToken(userId)
 
   const response = await api.request<T>({
     method,
