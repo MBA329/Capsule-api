@@ -14,8 +14,7 @@ export const userService = {
     if (!users){
       throw new Error("user cannot be found")
     }
-    
-     
+      
 
       const response = await spotifyRequest<T>(
         userId,
