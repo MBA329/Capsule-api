@@ -1,5 +1,4 @@
 import {db} from "../prisma/db"
-import { userResponse } from "../types"
 import { spotifyRequest } from "./axios.interceptor"
 
 
@@ -15,8 +14,9 @@ export const userService = {
       );
    return response
     }
-    catch (error){
-      throw new Error
+    catch (error:any){
+      throw new Error("failed to retieve error",{cause:error})
+      
     }
   }
 }
