@@ -19,7 +19,7 @@ function generateRandomString(length: number) {
 
 export const login = async (req: Request, res: Response) => {
   
-  var scope = "user-read-private user-read-email";
+  var scope = "user-read-private user-read-email playlist-read-private playlist-read-collaborative";
   req.app.locals.state = generateRandomString(16);
 
   res.redirect(
@@ -69,7 +69,7 @@ export const requestToken = async (req: Request, res: Response) => {
     })
    }
    const access_token = generateToken({ id: user.id.toString(), email: user.email });
-   console.log(access_token)
+   
     res.cookie("auth_token", access_token, {
       sameSite: "lax",
       httpOnly: true,

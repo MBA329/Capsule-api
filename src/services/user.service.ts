@@ -1,16 +1,26 @@
 import {db} from "../prisma/db"
 import { spotifyRequest } from "./axios.interceptor"
+import querystring from "node:querystring";
 
 
 export const userService = {
  
    getPlaylist : async <T>(userId:number):Promise<T>=>{
-    const user_id = await db.orm.public.User.select('spotifyId').where({id:userId})
     try {
+    const users = await db.orm.public.User.select("spotifyId").where({
+      id: userId,
+    }).first();
+    
+    if (!users){
+      throw new Error("user cannot be found")
+    }
+      const spotifyId = users?.spotifyId;
+     
+
       const response = spotifyRequest<T>(
         userId,
-        `https://api.spotify.com/v1/users/${user_id}/playlists`,
-        "post",
+        `https://api.spotify.com/v1/users/${spotifyId}/playlists`,
+        "get",
       );
    return response
     }

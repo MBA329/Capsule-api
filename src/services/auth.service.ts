@@ -1,7 +1,6 @@
 import { tokenResponse, userResponse } from "../types";
 import axios, { AxiosResponse } from "axios";
 import { db } from "../prisma/db";
-import { redis } from "../config/redis";
 import type { Models } from "../prisma/contract";
 import {Scalars} from "@prisma/orm-postgres/family-contract/types";
 import { cacheSpotifyAccessToken } from "./spotify-token.service";
@@ -22,6 +21,7 @@ export const authServices = {
            },
          },
        );
+      console.log(user)
        let { email, display_name, id } = user.data;
        if (!email || !display_name) {
          throw new Error("missing username or email");

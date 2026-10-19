@@ -32,7 +32,7 @@ export async function spotifyRequest<T>(
   const response = await api.request<T>({
     method,
     headers:{
-      Authorization: `Bearer: ${accessToken}`
+      Authorization: `Bearer ${accessToken}`
     },
     capsuleUserId:userId,
     url:path,
