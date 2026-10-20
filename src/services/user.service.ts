@@ -7,15 +7,6 @@ export const userService = {
  
    getPlaylist : async <T>(userId:number):Promise<T>=>{
     try {
-    const users = await db.orm.public.User.select("spotifyId").where({
-      id: userId,
-    }).first();
-    
-    if (!users){
-      throw new Error("user cannot be found")
-    }
-      
-
       const response = await spotifyRequest<T>(
         userId,
         `https://api.spotify.com/v1/me/playlists`,

@@ -41,3 +41,10 @@ export type userResponse = {
   type:string
   uri:string
 };
+
+export type capsule = {
+  name:string
+  artists:artist[]
+  revealDate:Date
+}
+type artist = "string"

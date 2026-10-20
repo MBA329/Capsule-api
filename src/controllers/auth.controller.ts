@@ -19,7 +19,7 @@ function generateRandomString(length: number) {
 
 export const login = async (req: Request, res: Response) => {
   
-  var scope = "user-read-private user-read-email playlist-read-private playlist-read-collaborative";
+  var scope = "user-read-private user-read-email user-top-read playlist-read-private playlist-read-collaborative";
   req.app.locals.state = generateRandomString(16);
 
   res.redirect(
