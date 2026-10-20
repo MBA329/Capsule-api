@@ -44,7 +44,10 @@ export type userResponse = {
 
 export type capsule = {
   name:string
-  artists:artist[]
+  artists:string[]
   revealDate:Date
+
 }
-type artist = "string"
+export type items = {
+  name:string
+}
