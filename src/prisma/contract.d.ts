@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'6f12ca8a85923f2a13ec6181a020b14ecd380859d68982b5bca51cfbadf9b86b'>;
+  StorageHashBase<'4f810a47d2a4e1f3c99925471be959dabc382e8fd13de02f24ba4bed2cfa1a97'>;
 export type ExecutionHash =
   ExecutionHashBase<'b988a5d691c866780164d45b67a3ce26fd0093a75693e227b320b5ef36ae56ea'>;
 export type ProfileHash =
@@ -251,10 +251,11 @@ type DefaultLiteralValue<CodecId extends string, Encoded> = CodecId extends keyo
 export type FieldOutputTypes = {
   readonly public: {
     readonly Capsule: {
-      readonly content: CodecTypes['pg/text@1']['output'] | null;
+      readonly artists: ReadonlyArray<CodecTypes['pg/text@1']['output']>;
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly id: CodecTypes['pg/int4@1']['output'];
       readonly ownerId: CodecTypes['pg/int4@1']['output'];
+      readonly revealAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
       readonly title: CodecTypes['pg/text@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
     };
@@ -263,7 +264,6 @@ export type FieldOutputTypes = {
       readonly email: CodecTypes['pg/text@1']['output'];
       readonly id: CodecTypes['pg/int4@1']['output'];
       readonly refreshToken: CodecTypes['pg/text@1']['output'];
-      readonly spotifyId: CodecTypes['pg/text@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly username: CodecTypes['pg/text@1']['output'] | null;
     };
@@ -272,10 +272,11 @@ export type FieldOutputTypes = {
 export type FieldInputTypes = {
   readonly public: {
     readonly Capsule: {
-      readonly content: CodecTypes['pg/text@1']['input'] | null;
+      readonly artists: ReadonlyArray<CodecTypes['pg/text@1']['input']>;
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly id: CodecTypes['pg/int4@1']['input'];
       readonly ownerId: CodecTypes['pg/int4@1']['input'];
+      readonly revealAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
       readonly title: CodecTypes['pg/text@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
     };
@@ -284,7 +285,6 @@ export type FieldInputTypes = {
       readonly email: CodecTypes['pg/text@1']['input'];
       readonly id: CodecTypes['pg/int4@1']['input'];
       readonly refreshToken: CodecTypes['pg/text@1']['input'];
-      readonly spotifyId: CodecTypes['pg/text@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly username: CodecTypes['pg/text@1']['input'] | null;
     };
@@ -293,10 +293,11 @@ export type FieldInputTypes = {
 export type StorageColumnTypes = {
   readonly public: {
     readonly Capsule: {
-      readonly content: CodecTypes['pg/text@1']['output'] | null;
+      readonly artists: ReadonlyArray<CodecTypes['pg/text@1']['output']>;
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly id: CodecTypes['pg/int4@1']['output'];
       readonly ownerId: CodecTypes['pg/int4@1']['output'];
+      readonly revealAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
       readonly title: CodecTypes['pg/text@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
     };
@@ -305,7 +306,6 @@ export type StorageColumnTypes = {
       readonly email: CodecTypes['pg/text@1']['output'];
       readonly id: CodecTypes['pg/int4@1']['output'];
       readonly refreshToken: CodecTypes['pg/text@1']['output'];
-      readonly spotifyId: CodecTypes['pg/text@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly username: CodecTypes['pg/text@1']['output'] | null;
     };
@@ -314,10 +314,11 @@ export type StorageColumnTypes = {
 export type StorageColumnInputTypes = {
   readonly public: {
     readonly Capsule: {
-      readonly content: CodecTypes['pg/text@1']['input'] | null;
+      readonly artists: ReadonlyArray<CodecTypes['pg/text@1']['input']>;
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly id: CodecTypes['pg/int4@1']['input'];
       readonly ownerId: CodecTypes['pg/int4@1']['input'];
+      readonly revealAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
       readonly title: CodecTypes['pg/text@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
     };
@@ -326,7 +327,6 @@ export type StorageColumnInputTypes = {
       readonly email: CodecTypes['pg/text@1']['input'];
       readonly id: CodecTypes['pg/int4@1']['input'];
       readonly refreshToken: CodecTypes['pg/text@1']['input'];
-      readonly spotifyId: CodecTypes['pg/text@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly username: CodecTypes['pg/text@1']['input'] | null;
     };
@@ -335,10 +335,11 @@ export type StorageColumnInputTypes = {
 
 export namespace Models {
   export type public_Capsule = {
-    content: CodecTypes['pg/text@1']['output'] | null;
+    artists: ReadonlyArray<CodecTypes['pg/text@1']['output']>;
     createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
     id: CodecTypes['pg/int4@1']['output'];
     ownerId: CodecTypes['pg/int4@1']['output'];
+    revealAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     title: CodecTypes['pg/text@1']['output'];
     updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
     owner: public_User;
@@ -349,7 +350,6 @@ export namespace Models {
     email: CodecTypes['pg/text@1']['output'];
     id: CodecTypes['pg/int4@1']['output'];
     refreshToken: CodecTypes['pg/text@1']['output'];
-    spotifyId: CodecTypes['pg/text@1']['output'];
     updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
     username: CodecTypes['pg/text@1']['output'] | null;
     capsules: public_Capsule[];
@@ -384,10 +384,14 @@ type ContractBase = Omit<
           readonly table: {
             readonly Capsule: {
               columns: {
-                readonly content: {
+                readonly artists: {
                   readonly nativeType: 'text';
                   readonly codecId: 'pg/text@1';
-                  readonly nullable: true;
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/text@1', readonly []>;
+                  };
                 };
                 readonly createdAt: {
                   readonly nativeType: 'timestamptz';
@@ -407,6 +411,11 @@ type ContractBase = Omit<
                 readonly ownerId: {
                   readonly nativeType: 'int4';
                   readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                };
+                readonly revealAt: {
+                  readonly nativeType: 'timestamptz';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
                   readonly nullable: false;
                 };
                 readonly title: {
@@ -472,11 +481,6 @@ type ContractBase = Omit<
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
                 };
-                readonly spotifyId: {
-                  readonly nativeType: 'text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                };
                 readonly updatedAt: {
                   readonly nativeType: 'timestamptz';
                   readonly codecId: 'pg/timestamptz-string@1';
@@ -513,9 +517,10 @@ type ContractBase = Omit<
         readonly models: {
           readonly Capsule: {
             readonly fields: {
-              readonly content: {
-                readonly nullable: true;
+              readonly artists: {
+                readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+                readonly many: true;
               };
               readonly createdAt: {
                 readonly nullable: false;
@@ -531,6 +536,13 @@ type ContractBase = Omit<
               readonly ownerId: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly revealAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                };
               };
               readonly title: {
                 readonly nullable: false;
@@ -559,10 +571,11 @@ type ContractBase = Omit<
               readonly table: 'Capsule';
               readonly namespaceId: 'public';
               readonly fields: {
-                readonly content: { readonly column: 'content' };
+                readonly artists: { readonly column: 'artists' };
                 readonly createdAt: { readonly column: 'createdAt' };
                 readonly id: { readonly column: 'id' };
                 readonly ownerId: { readonly column: 'ownerId' };
+                readonly revealAt: { readonly column: 'revealAt' };
                 readonly title: { readonly column: 'title' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
               };
@@ -586,10 +599,6 @@ type ContractBase = Omit<
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
               };
               readonly refreshToken: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly spotifyId: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -626,7 +635,6 @@ type ContractBase = Omit<
                 readonly email: { readonly column: 'email' };
                 readonly id: { readonly column: 'id' };
                 readonly refreshToken: { readonly column: 'refreshToken' };
-                readonly spotifyId: { readonly column: 'spotifyId' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
                 readonly username: { readonly column: 'username' };
               };

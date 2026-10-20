@@ -42,8 +42,7 @@ export const authServices = {
       const newUser = await db.orm.public.User.create({
         email,
         username: display_name,
-        refreshToken: refresh_token,
-        spotifyId:id
+        refreshToken: refresh_token
       });
 
       

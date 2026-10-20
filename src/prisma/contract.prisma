@@ -8,16 +8,18 @@ model User {
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
   refreshToken String
-  spotifyId    String
+  
 }
 
 model Capsule{
     id        Int      @id @default(autoincrement())
   title     String
-  content   String?
+  artists   String[]  @default([])
   owner    User     @relation(fields: [ownerId], references: [id])
   ownerId  Int
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
+  revealAt  DateTime
+
 }
 
