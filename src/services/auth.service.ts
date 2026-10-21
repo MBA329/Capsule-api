@@ -21,7 +21,7 @@ export const authServices = {
            },
          },
        );
-      console.log(user)
+     
        let { email, display_name, id } = user.data;
        if (!email || !display_name) {
          throw new Error("missing username or email");

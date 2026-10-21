@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { db } from "./prisma/db";
 import { authRouter } from "./routes/auth.route";
 import { userRouter } from "./routes/users.route";
+import { capsuleRouter } from "./routes/capsule.route";
 import cookieParser from 'cookie-parser'
 
 export const app = express();
@@ -37,6 +38,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 appRouter.use("/auth", authRouter);
-appRouter.use("/users",userRouter)
+appRouter.use("/users",userRouter);
+appRouter.use("/capsules",capsuleRouter)
 app.use("/", appRouter);
 
