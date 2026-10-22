@@ -24,3 +24,7 @@ export const createCapsuleController = (req:Request,res:Response,next:NextFuncti
 
 
 }
+
+export const deleteCapsuleController = ()=>{
+
+}

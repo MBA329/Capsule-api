@@ -6,3 +6,4 @@ import { createCapsuleController } from '../controllers/capsule.controller';
 export const capsuleRouter = express.Router()
 
 capsuleRouter.post('/createCapsule',createCapsuleController)
+capsuleRouter.delete('/deleteCapsule/:id',deleteCapsuleController)
