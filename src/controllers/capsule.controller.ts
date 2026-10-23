@@ -3,25 +3,37 @@ import { capsuleService } from '../services/capsule.service';
 import { z } from "zod";
 
 export const createCapsuleBody = z.object({
-  revealDate:z.date().min(new Date(), { error: "date must be set to the future" }),
-  name:z.string().min(3),
-  ownerId:z.number().int().positive()
-})
+  revealDate: z.iso
+    .datetime()
+    .refine((s) => new Date(s) > new Date(), {
+      error: "date must be set to the future",
+    }),
+  name: z.string().min(3),
+  ownerId: z.coerce.number().int().positive(),
+});
 
 export type capsule = z.infer<typeof createCapsuleBody>
 
-export const createCapsuleController = (req:Request,res:Response,next:NextFunction)=>{
+export const createCapsuleController = async (req:Request,res:Response,next:NextFunction)=>{
 
-  const id = req.params.id
-  const result = createCapsuleBody.safeParse({...req.body,ownerId:id})
+  try {
+const id = req.user?.id;
+const result = createCapsuleBody.safeParse({ ...req.body, ownerId: id });
+console.log(result,createCapsuleBody)
 
-  if (!result.success ){
-    res.status(400).json({error:"bad request",details:result.error.format})
-     return
+if (!result.success) {
+  res.status(400).json({ error: "bad request", details: result.error.format });
+
+  return;
+}
+
+const response = await capsuleService.createCapsule(result.data!);
+return res.status(200).json(response)
   }
- 
-  const response = capsuleService.createCapsule(result.data!)
-
+  
+catch (error){
+console.error(error)
+}
 
 }
 

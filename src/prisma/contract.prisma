@@ -19,7 +19,7 @@ model Capsule{
   ownerId  Int
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
-  revealAt  DateTime
+  revealAt  TimestamptzString
 
 }
 

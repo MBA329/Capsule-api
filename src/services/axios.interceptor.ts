@@ -63,10 +63,11 @@ api.interceptors.response.use(
       const accessToken = await refreshSpotifyAccessToken(userId);
       originalRequest.headers.set("Authorization", `Bearer ${accessToken}`);
       return await api.request(originalRequest)
-    }
+    } 
     catch (refreshError){
       return Promise.reject(refreshError)
     }
   }
 )
 
+ 

@@ -51,7 +51,7 @@
               "revealAt": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "kind": "scalar"
                 }
               },
@@ -255,7 +255,7 @@
                   "nullable": false
                 },
                 "revealAt": {
-                  "codecId": "pg/timestamptz-temporal@1",
+                  "codecId": "pg/timestamptz-string@1",
                   "nativeType": "timestamptz",
                   "nullable": false
                 },
@@ -367,7 +367,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "4f810a47d2a4e1f3c99925471be959dabc382e8fd13de02f24ba4bed2cfa1a97"
+    "storageHash": "8c35437b94a8e62db6e5e3d034e079ae000d30c66dc38a821f7dc830d38c790e"
   },
   "execution": {
     "executionHash": "b988a5d691c866780164d45b67a3ce26fd0093a75693e227b320b5ef36ae56ea",
