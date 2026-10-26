@@ -9,7 +9,7 @@ export const capsuleService = {
     try {
 const response = await spotifyRequest<{items:{name:string}[]}>(
   body.ownerId,
-  "https://api.spotify.com/v1/me/top/artists","get",{params:{"limit:":"10","offset":"5","time_range":"short_term"}}
+  "https://api.spotify.com/v1/me/top/artists","get",{params:{"limit:":"7","offset":"1","time_range":"short_term"}}
 );
 
 const artists:string[] = response.items.map((artist)=>artist.name)
