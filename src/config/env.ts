@@ -18,5 +18,4 @@ if (!parsed.success || parsed === undefined){
   process.exit(1)
 }
 
-
 export const env =  parsed.data 
